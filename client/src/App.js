@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Container, AppBar, Typography, Grow, Grid} from '@material-ui/core';
 import {useDispatch} from 'react-redux'; // helps us to dispatch an action
 
@@ -9,12 +9,13 @@ import memories from './image/memories.png';
 import useStyles from './styles';
 
 const App = () => {
+    const [currentId, setCurrentId] = useState(null);
     const classes = useStyles(); // to be used in different components by the 'classes' variable.the_required_property
     const dispatch = useDispatch(); // this is a hook
 
     useEffect(() => {
         dispatch(getPosts()); //to dispatch an action
-    }, [dispatch]);
+    }, [currentId, dispatch]);
 
     return (
         //container instead of div to make sure that everything is centered
@@ -25,12 +26,12 @@ const App = () => {
             </AppBar>
             <Grow in>
                 <Container>
-                    <Grid container justify="space=between" alignItems="stretch" spacing={4}>
+                    <Grid className={classes.mainContainer} container justify="space=between" alignItems="stretch" spacing={3}>
                         <Grid item xs={12} sm={7}>
-                            <Posts />  
+                            <Posts setCurrentId={setCurrentId}/>  
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <Form />   
+                            <Form currentId={currentId} />   
                         </Grid>
                     </Grid>
                 </Container>
